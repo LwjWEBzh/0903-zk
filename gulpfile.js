@@ -17,5 +17,17 @@ gulp.task('watch', function() {
     return gulp.watch('./src/scss/*.scss', gulp.series('minCss'))
 })
 
+//压缩js
+gulp.task('minJs', function() {
+        return gulp.src(['./src/js/**/*.js', '!./src/js/commonjs/*.js'])
+            .pipe(babel())
+            .pipe(minJs())
+            .pipe(gulp.dest('./src/libs'))
+    })
+    //监听js
+gulp.task('watch', function() {
+    return gulp.watch('./src/js/**/*.js', gulp.series('minJs'))
+})
+
 //整合任务
-gulp.task('dev', gulp.series('minCss', 'watch'))
+gulp.task('dev', gulp.series('minCss', 'minJs', 'watch'))
